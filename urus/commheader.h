@@ -9,10 +9,17 @@
 #include <QDateTime>
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QTextList>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QList>
+#include <QHostAddress>
+#include <QNetworkInterface>
 
 #include <QPushButton>
 
 #include <QGridLayout>
+#include <QFormLayout>
 #include <QFont>
 
 

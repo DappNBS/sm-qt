@@ -23,23 +23,21 @@ private:
     void        initLabels();
     void        initLayout();
 
+    void        networkInterfaceList(QListWidget *);
+
 
     //UI 成员变量
     QLabel              * logoLabel;
-    //Label
-    QLabel              * leftTitleLabel;//
-    QLabel              * rightTitleLabel;//
 
-    QLabel              * statLabel;//状态
+    QLabel              * leftTitleLabel;
+    QLabel              * rightTitleLabel;
 
-    QListWidget         * leftInfoWidget;
-
-    QListWidget         * msgLogWidget;//聊天历史
 
     //left
     QLabel              * sidLabel;
-    QLabel              * accLabel;
     QLineEdit           * accLabelVal;
+
+    QListWidget         * ipList;
 
     //Buttons
     QPushButton         * initButton;//init nbs account button
@@ -50,7 +48,7 @@ private:
 
     QPushButton         * sendButton;//send msg
     //</RIGHT>
-
+    QLabel              * statLabel;//状态
 };
 
 #endif // MAINWINDOW_H

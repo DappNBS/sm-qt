@@ -8,7 +8,18 @@
 #include <QLabel>
 #include <QDateTime>
 #include <QTextEdit>
+#include <QLineEdit>
+
+#include <QPushButton>
+
+#include <QGridLayout>
+#include <QFont>
 
 
+//const
+#define WIN_WIDTH 860
+#define WIN_HEIGHT 600
+
+static const QString & APP_NAME("NBS Chat");
 
 #endif // COMMHEADER_H

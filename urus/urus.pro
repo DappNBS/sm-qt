@@ -34,10 +34,17 @@ HEADERS += \
 
 FORMS +=
 
+RC_FILE += images/icon.rc
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    images/icon.rc
+    images/logo.ico \
+    images/logo.png
+
+RESOURCES += \
+    res.qrc
+

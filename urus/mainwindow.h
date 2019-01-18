@@ -17,7 +17,7 @@ public:
 signals:
 
 public slots:
-    //void        handleInitAccount(QString name,QString pw);
+    void        handleInitAccount();
 
 private:
     void        initLabels();
@@ -36,6 +36,9 @@ private:
     //left
     QLabel              * sidLabel;
     QLineEdit           * accLabelVal;
+    //
+    QLabel              * nbsAddress;
+
 
     QListWidget         * ipList;
 
@@ -49,6 +52,12 @@ private:
     QPushButton         * sendButton;//send msg
     //</RIGHT>
     QLabel              * statLabel;//状态
+
+
+    //<VARIABLES>
+    QString             accoutName;
+    QHostAddress        nbsServerIP;
+    int                 nbsServerPort = 59527;
 };
 
 #endif // MAINWINDOW_H

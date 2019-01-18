@@ -5,7 +5,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
 
+    //初始化页面标签
     this->initLabels();
+    //设值
+
+    //布局
     this->initLayout();
     this->setWindowTitle(APP_NAME);
     this->resize(QSize(WIN_WIDTH,WIN_HEIGHT));
@@ -14,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::handleInitAccount(){
+    //TODO Accdialog
 }
 
 void MainWindow::initLayout(){
@@ -33,15 +41,6 @@ void MainWindow::initLayout(){
     logoLayout->addStretch();
     logoLayout->setSpacing(10);
 
-//    //flow
-//    QVBoxLayout     * infoLayout    = new QVBoxLayout;
-//    infoLayout->addWidget(this->leftTitleLabel);
-//    infoLayout->addStretch();
-
-
-
-
-
     QVBoxLayout     * leftVBLayout  = new QVBoxLayout;
     leftVBLayout->addLayout(logoLayout);
     leftVBLayout->addWidget(this->sidLabel,0,Qt::AlignHCenter);
@@ -51,6 +50,7 @@ void MainWindow::initLayout(){
     QFormLayout     * fLayout    = new QFormLayout();
     fLayout->setRowWrapPolicy(QFormLayout::DontWrapRows);
     fLayout->addRow(QStringLiteral("Account Name:"),this->accLabelVal);
+    fLayout->addRow(QStringLiteral("NBS SERVER:"),this->nbsAddress);
     fLayout->addRow(QStringLiteral("Local IP:"),this->ipList);
 
     leftVBLayout->addLayout(fLayout);
@@ -115,9 +115,13 @@ void MainWindow::initLabels(){
     this->accLabelVal->setReadOnly(true);
     this->accLabelVal->setStyleSheet(BGC_LIGHT_GRAY);
 
+    this->nbsAddress            = new QLabel(QObject::tr("127.0.0.1:59527"),this);
+    this->nbsAddress->setStyleSheet(BGC_LIGHT_GRAY);
+
     this->ipList                = new QListWidget(this);
     this->networkInterfaceList(this->ipList);
     this->ipList->setStyleSheet(BGC_LIGHT_GRAY);
+
 
     this->initButton            = new QPushButton(QObject::tr("init"),this);
 

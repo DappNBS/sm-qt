@@ -27,12 +27,14 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    accdialog.cpp
 
 HEADERS += \
         mainwindow.h \
     commheader.h \
-    globalconst.h
+    globalconst.h \
+    accdialog.h
 
 FORMS +=
 

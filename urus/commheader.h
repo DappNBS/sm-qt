@@ -15,6 +15,7 @@
 #include <QList>
 #include <QHostAddress>
 #include <QNetworkInterface>
+#include <QSpinBox>
 
 #include <QPushButton>
 

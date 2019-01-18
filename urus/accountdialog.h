@@ -17,10 +17,13 @@ public:
     QString         getAccountName();
     QString         getServerIP();
     int             getServerPort();
+    QString         getSID();
 
 signals:
 
 public slots:
+    void            on_createdButton_clicked();
+    void            on_cancelButton_clicked();
 
 private:
     void            initElements();
@@ -36,6 +39,8 @@ private:
 
     QPushButton     *creatButton;
     QPushButton     *cancelButton;
+
+    QString         sid;
 };
 
 #endif // ACCOUNTDIALOG_H

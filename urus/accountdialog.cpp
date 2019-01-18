@@ -10,9 +10,26 @@ AccountDialog::AccountDialog(QWidget *parent) : QDialog(parent)
     this->setMinimumSize(QSize(ACC_WIN_WIDTH,ACC_WIN_HIGHT));
     this->setMaximumSize(QSize(ACC_WIN_WIDTH,ACC_WIN_HIGHT));
     this->setWindowTitle(QObject::tr("初始化NBS服务"));
+
+    connect(this->creatButton,SIGNAL(clicked()),
+            this,SLOT(on_createdButton_clicked()));
+    connect(this->cancelButton,SIGNAL(clicked()),
+            this,SLOT(on_cancelButton_clicked()));
 }
 
 AccountDialog::~AccountDialog(){}
+
+void AccountDialog::on_createdButton_clicked(){
+    this->sid               = "QNS908s9t9Vs9s7ss1sfTT0v";
+
+
+    //TODO check need create , create fail return or reject
+    this->accept();
+}
+
+void AccountDialog::on_cancelButton_clicked(){
+    this->reject();
+}
 
 void AccountDialog::initElements(){
     this->editAccName       = new QLineEdit(this);
@@ -56,6 +73,8 @@ void AccountDialog::initLayout(){
     mainBoxLayout->addLayout(fLayout);
     mainBoxLayout->addStretch();
     mainBoxLayout->addLayout(btnLayout);
+
+    this->setLayout(mainBoxLayout);
 }
 
 QString AccountDialog::getAccountName(){
@@ -74,4 +93,10 @@ QString AccountDialog::getServerIP(){
 
 int AccountDialog::getServerPort(){
     return this->editNbsPort->value();
+}
+
+QString AccountDialog::getSID(){
+    if(this->sid.isNull())
+        this->sid = "";
+    return this->sid;
 }

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "globalconst.h"
+#include "accountdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -13,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->initLayout();
     this->setWindowTitle(APP_NAME);
     this->resize(QSize(WIN_WIDTH,WIN_HEIGHT));
+
+    connect(this->initButton,SIGNAL(clicked()),this,SLOT(handleInitAccount()));
 }
 
 MainWindow::~MainWindow()
@@ -21,8 +24,26 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::handleInitAccount(){
-    //TODO Accdialog
+    AccountDialog       *accDialog  = new AccountDialog(this);
+    if(accDialog->exec() != QDialog::Accepted)
+    {
+        this->statLabel->setText("取消初始化操作...");
+        return;
+    }
+
+    this->accoutName                = accDialog->getAccountName();
+    this->nbsServerIP               = accDialog->getServerIP();
+    this->nbsServerPort             = accDialog->getServerPort();
+
+    QString svrIP =
+            this->nbsServerIP + ":" + QString::number(this->nbsServerPort);
+    this->nbsAddress->setText(svrIP);
+    this->accLabelVal->setText(this->accoutName);
+    this->sidLabel->setText(accDialog->getSID());
+    this->statLabel->setText("NBS服务初始化完成...");
+    this->initButton->setEnabled(false);
 }
+
 
 void MainWindow::initLayout(){
 

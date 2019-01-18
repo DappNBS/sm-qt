@@ -56,7 +56,7 @@ private:
 
     //<VARIABLES>
     QString             accoutName;
-    QHostAddress        nbsServerIP;
+    QString             nbsServerIP;
     int                 nbsServerPort = 59527;
 };
 

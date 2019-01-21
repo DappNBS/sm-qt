@@ -1,7 +1,7 @@
 #ifndef ACCOUNTDIALOG_H
 #define ACCOUNTDIALOG_H
 #define ACC_WIN_WIDTH 460
-#define ACC_WIN_HIGHT 320
+#define ACC_WIN_HIGHT 260
 
 #include "commheader.h"
 #include <QWidget>

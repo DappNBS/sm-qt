@@ -14,16 +14,24 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    bool        getState();
+
 signals:
 
 public slots:
     void        handleInitAccount();
+    void        handleSendMessage();
+
+protected:
+    bool        eventFilter(QObject *target,QEvent *event);
 
 private:
     void        initLabels();
     void        initLayout();
 
     void        networkInterfaceList(QListWidget *);
+    void        appendMessage(QString msg,QString from);
+
 
 
 
@@ -59,6 +67,10 @@ private:
     QString             accoutName;
     QString             nbsServerIP;
     int                 nbsServerPort = 59527;
+
+    bool                nsbState = false;
+
+    QString             scrollStyle;
 };
 
 #endif // MAINWINDOW_H

@@ -21,10 +21,13 @@ AccountDialog::~AccountDialog(){}
 
 void AccountDialog::on_createdButton_clicked(){
     this->sid               = "QNS908s9t9Vs9s7ss1sfTT0v";
+    if(this->editAccName->text().isEmpty()){
+        return;
+    }else{
 
-
-    //TODO check need create , create fail return or reject
-    this->accept();
+        //TODO check need create , create fail return or reject
+        this->accept();
+    }
 }
 
 void AccountDialog::on_cancelButton_clicked(){
@@ -49,8 +52,8 @@ void AccountDialog::initElements(){
 
     this->creatButton       = new QPushButton(QObject::tr("创建"),this);
     this->cancelButton      = new QPushButton(QObject::tr("取消"),this);
-    this->creatButton->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    this->cancelButton->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    this->creatButton->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    this->cancelButton->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
 }
 
 void AccountDialog::initLayout(){

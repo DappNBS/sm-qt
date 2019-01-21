@@ -1,10 +1,17 @@
 #include "mainwindow.h"
 #include "globalconst.h"
 #include "accountdialog.h"
+#include <QShortcut>
+#include <iostream>
+#include <QIODevice>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    QFile scrollQssFile(":/qss/scrollbar.qss");
+    scrollQssFile.open(QFile::ReadOnly);
+    this->scrollStyle = scrollQssFile.readAll();
+    scrollQssFile.close();
 
     //初始化页面标签
     this->initLabels();
@@ -16,11 +23,34 @@ MainWindow::MainWindow(QWidget *parent) :
     this->resize(QSize(WIN_WIDTH,WIN_HEIGHT));
 
     connect(this->initButton,SIGNAL(clicked()),this,SLOT(handleInitAccount()));
+    connect(this->sendButton,SIGNAL(clicked()),this,SLOT(handleSendMessage()));
+    //this->msgSend->grabKeyboard();
+
 }
 
 MainWindow::~MainWindow()
 {
 
+}
+
+
+
+bool MainWindow::getState(){
+    return this->nsbState;
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event){
+    if(watched == this->msgSend){
+        if(event->type() == QEvent::KeyPress){
+            QKeyEvent *k = static_cast<QKeyEvent *>(event);
+            if(k->key() == Qt::Key_Return){
+                handleSendMessage();
+                return true;
+            }
+        }
+    }
+
+    return QWidget::eventFilter(watched,event);
 }
 
 void MainWindow::handleInitAccount(){
@@ -41,9 +71,43 @@ void MainWindow::handleInitAccount(){
     this->accLabelVal->setText(this->accoutName);
     this->sidLabel->setText(accDialog->getSID());
     this->statLabel->setText("NBS服务初始化完成...");
+    this->nsbState = true;
     this->initButton->setEnabled(false);
+    this->sendButton->setEnabled(true);
 }
 
+void MainWindow::handleSendMessage(){
+    if(!this->getState() || this->msgSend->text().isEmpty())return;
+    this->appendMessage(this->msgSend->text(),this->accLabelVal->text());
+}
+
+void MainWindow::appendMessage(QString msg, QString from){
+    if(msg.isEmpty())return;
+    QDateTime   time        = QDateTime::currentDateTime();
+    QString     timeStr     = time.toString("hh:mm:ss");
+    QColor      color       = this->logChat->textColor();
+
+    if(this->accLabelVal->text().compare(from) == 0){
+        this->logChat->setTextColor(Qt::blue);
+    }else{
+        this->logChat->setTextColor(color);
+    }
+
+    QString info = from + " [" + timeStr +"] > \n";
+    this->logChat->append(info);
+    this->logChat->append("    "+msg + "\n");
+    this->logChat->setTextColor(color);
+    this->msgSend->clear();
+
+    QScrollBar  *bar        = logChat->verticalScrollBar();
+    using std::cout;
+    if(!this->scrollStyle.isEmpty()){
+        std::cout << this->scrollStyle.data();
+        this->logChat->setStyleSheet(this->scrollStyle);
+    }
+
+    bar->setValue(bar->maximum());
+}
 
 void MainWindow::initLayout(){
 
@@ -139,6 +203,8 @@ void MainWindow::initLabels(){
     this->nbsAddress            = new QLabel(QObject::tr("127.0.0.1:59527"),this);
     this->nbsAddress->setStyleSheet(BGC_LIGHT_GRAY);
 
+
+
     this->ipList                = new QListWidget(this);
     this->networkInterfaceList(this->ipList);
     this->ipList->setStyleSheet(BGC_LIGHT_GRAY);
@@ -147,16 +213,22 @@ void MainWindow::initLabels(){
     this->initButton            = new QPushButton(QObject::tr("init"),this);
 
 
-
     //<RIGHT>
+
+
     this->rightTitleLabel       = new QLabel(QObject::tr("<b>群聊:</b>"),this);
     this->logChat               = new QTextEdit(this);
     this->logChat->setReadOnly(true);
     this->logChat->setFocusPolicy(Qt::NoFocus);
 
+
     this->msgSend               = new QLineEdit();
     this->msgSend->setFocusPolicy(Qt::StrongFocus);
+    this->msgSend->setFocus();
+    this->msgSend->installEventFilter(this);
     this->sendButton            = new QPushButton(QObject::tr("Send"),this);
+
+    this->sendButton->setEnabled(false);
 
     this->statLabel             = new QLabel(QObject::tr("状态：服务未初始化..."),this);
 }
@@ -170,5 +242,7 @@ void MainWindow::networkInterfaceList(QListWidget * listWidget){
             if(address.protocol()==QAbstractSocket::IPv4Protocol)
                 listWidget->addItem(address.toString());
         }
+
+        listWidget->setFocusPolicy(Qt::NoFocus);
     }
 }

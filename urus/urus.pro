@@ -34,7 +34,8 @@ HEADERS += \
         mainwindow.h \
     commheader.h \
     globalconst.h \
-    accountdialog.h
+    accountdialog.h \
+    urusspace.h
 
 FORMS +=
 
@@ -47,7 +48,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     images/logo.ico \
-    images/logo.png
+    images/logo.png \
+    qss/scrollbar.qss
 
 RESOURCES += \
     res.qrc

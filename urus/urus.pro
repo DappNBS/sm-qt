@@ -26,10 +26,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 
+CONFIG(debug,debug|release){#debug
+
+    macx:{
+        LIBS    += -L"$$PWD/third_party_lib/lib/macOS" \
+                -lprotobufd \
+                -lgmappingd
+    }
+}
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
     accountdialog.cpp \
+    example.pb.cc
 
 
 HEADERS += \
@@ -38,6 +48,7 @@ HEADERS += \
     globalconst.h \
     accountdialog.h \
     urusspace.h \
+    example.pb.h
 
 FORMS +=
 
@@ -71,8 +82,20 @@ DISTFILES += \
     images/logo.png \
     qss/scrollbar.qss \
     proto/example.proto \
-    lib/release/cares.lib
 
 RESOURCES += \
     res.qrc
 
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdparty/lib/release/ -lprotobuf
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdparty/lib/debug/ -lprotobuf
+else:macx: LIBS += -L$$PWD/thirdparty/lib/ -lprotobuf
+
+INCLUDEPATH += $$PWD/thirdparty
+DEPENDPATH += $$PWD/thirdparty
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/lib/release/libprotobuf.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/lib/debug/libprotobuf.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/lib/release/protobuf.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/thirdparty/lib/debug/protobuf.lib
+else:macx: PRE_TARGETDEPS += $$PWD/thirdparty/lib/libprotobuf.a

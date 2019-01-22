@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>images/logo.png</file>
         <file>qss/scrollbar.qss</file>
+        <file>nbs.icns</file>
     </qresource>
 </RCC>
